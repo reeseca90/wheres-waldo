@@ -1,12 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import './App.css';
-import blank from './blank';
+import Blank from './blank';
 import Hockey from './Hockey';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, getDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDd927D5eN1SDSpGBjk1RBY0_9Jra4G1QI",
+  authDomain: "wheres-waldo-4c7b9.firebaseapp.com",
+  projectId: "wheres-waldo-4c7b9",
+  storageBucket: "wheres-waldo-4c7b9.appspot.com",
+  messagingSenderId: "373337422993",
+  appId: "1:373337422993:web:fa89b0ad66b018f7689330"
+};
+
+const waldo = initializeApp(firebaseConfig);
+const db = getFirestore(waldo);
 
 const App = () => {
   // used to not render popup menu when setting initial coordinates
   const firstRender = useRef(true);
+  const canWinGame = useRef(false);
 
   const [name, setName] = useState('');
   const [x, setX] = useState(0);
@@ -14,6 +29,7 @@ const App = () => {
   const [pageX, setPageX] = useState(0);
   const [pageY, setPageY] = useState(0);
   const [items, setItems] = useState([]);
+  const [itemsFound, setItemsFound] = useState(0);
 
   const getName = (e) => {
     setName(e.target.value);
@@ -44,28 +60,52 @@ const App = () => {
     }
   }, [x, y, pageX, pageY]);
 
-  // ***** gets items to find from image file, but probably not needed ******
+  // get items array from child for checking win conditions
   const getItemsToFindCallback = (childData) => {
     setItems([...childData]);
   }
+  // set items found to 0 every time items array is changed
   useEffect(() => {
-    console.log(items);
+    setItemsFound(0);
+    const gameOverArea = document.getElementById('gameOverArea');
+    gameOverArea.className = 'popupHide';
   }, [items]);
 
-  const popupCallback = (childData) => {
-    // logic to check if selection is correct
-      // get coordinates of item from backend
-      // check if in range
+  useEffect(() => {
+    if (canWinGame.current === false) {
+      canWinGame.current = true;
+      return;
+    } else {
+      if (itemsFound === items.length && items.length !== 0) {
+        const gameOverArea = document.getElementById('gameOverArea');
+        gameOverArea.className = 'popupShow';
+        // some scoreboard functionality? this currently just logs user name and time completed in the database
+        const scoreRef = doc(db, 'leaderboard', 'hockey');
+        setDoc(scoreRef, { name: {name}, time: serverTimestamp() }, { merge: true })
+      }
+    }
+  }, [itemsFound, items.length])
 
-    // if found change found item to gray in list above image
-    const clickedItem = document.querySelector(`span[id=${childData}]`);
-    clickedItem.className = "found";
+  const popupCallback = async (childData) => {
+    // get coordinates of item from backend
+    const docRef = doc(db, 'hockey', childData);
+    const docSnap = await getDoc(docRef);
+
+    // check if in range
+    const checkRange = async () => {
+      if (x >= docSnap.data().X[0] && x <= docSnap.data().X[1] && y >= docSnap.data().Y[0] && y <= docSnap.data().Y[1]) {
+        // gray out item in list
+        const clickedItem = document.querySelector(`span[id=${childData}]`);
+        clickedItem.className = "found";
+        setItemsFound(itemsFound + 1);
+      }
+    }
+
+    await checkRange();
 
     // hide popup menu
     const popupMenu = document.getElementById('popupMenu');
     popupMenu.className = 'popupHide';
-
-    // logic to see if game is over
   }
 
   return (
@@ -87,7 +127,9 @@ const App = () => {
             </div>
 
             <Switch>
-              <Route exact path="/" component={blank} />
+              <Route exact path="/">
+                <Blank getItemsToFind={getItemsToFindCallback} />
+              </Route>
               <Route exact path="/hockey">
                 <Hockey coordCallback={coordCallback} getItemsToFind={getItemsToFindCallback} popupCallback={popupCallback} />
               </Route>
@@ -96,6 +138,9 @@ const App = () => {
         </BrowserRouter>
       </section>
 
+      <section id="gameOverArea" className="popupHide">
+        You Win!
+      </section>
     </div>
   );
 };

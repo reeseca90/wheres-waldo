@@ -65,3 +65,9 @@ ul {
 li:not(:last-child) {
   margin-bottom: 5px;
 }
+
+#gameOverArea {
+  font-size: 60px;
+  color: red;
+  font-weight: bold;
+}

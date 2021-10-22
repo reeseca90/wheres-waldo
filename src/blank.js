@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const blank = () => {
+const Blank = (props) => {
+  const itemsToFind = [];
+
+  function itemList() {
+    props.getItemsToFind(itemsToFind);
+  }
+  
+  // passes blank array to App when user clicks home button
+  useEffect(() => {
+    itemList();
+  }, []);
 
   return (
     <div id="blank">
@@ -9,4 +19,4 @@ const blank = () => {
   );
 };
 
-export default blank;
+export default Blank;
