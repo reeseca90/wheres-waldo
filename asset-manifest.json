@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/wheres-waldo/static/css/main.0e592bd2.chunk.css",
+    "main.js": "/wheres-waldo/static/js/main.9c547baf.chunk.js",
+    "main.js.map": "/wheres-waldo/static/js/main.9c547baf.chunk.js.map",
+    "runtime-main.js": "/wheres-waldo/static/js/runtime-main.6322256e.js",
+    "runtime-main.js.map": "/wheres-waldo/static/js/runtime-main.6322256e.js.map",
+    "static/js/2.d8ee41b8.chunk.js": "/wheres-waldo/static/js/2.d8ee41b8.chunk.js",
+    "static/js/2.d8ee41b8.chunk.js.map": "/wheres-waldo/static/js/2.d8ee41b8.chunk.js.map",
+    "index.html": "/wheres-waldo/index.html",
+    "static/css/main.0e592bd2.chunk.css.map": "/wheres-waldo/static/css/main.0e592bd2.chunk.css.map",
+    "static/js/2.d8ee41b8.chunk.js.LICENSE.txt": "/wheres-waldo/static/js/2.d8ee41b8.chunk.js.LICENSE.txt",
+    "static/media/hockey.e85a0811.jpg": "/wheres-waldo/static/media/hockey.e85a0811.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6322256e.js",
+    "static/js/2.d8ee41b8.chunk.js",
+    "static/css/main.0e592bd2.chunk.css",
+    "static/js/main.9c547baf.chunk.js"
+  ]
+}
