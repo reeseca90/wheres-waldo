@@ -8,10 +8,6 @@ const Navbar = () => {
       <div id="navLeft">
         Where's Waldo
       </div>
-
-      <div id="navRight">
-        Top Right Placeholder
-      </div>
     </header>
   );
 };

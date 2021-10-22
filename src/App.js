@@ -3,8 +3,9 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import './App.css';
 import Blank from './blank';
 import Hockey from './Hockey';
+import Leader from './Leader';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, getDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDd927D5eN1SDSpGBjk1RBY0_9Jra4G1QI",
@@ -30,9 +31,15 @@ const App = () => {
   const [pageY, setPageY] = useState(0);
   const [items, setItems] = useState([]);
   const [itemsFound, setItemsFound] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+  const [time, setTime] = useState(0);
 
   const getName = (e) => {
     setName(e.target.value);
+  }
+
+  const startTimeCallback = (childData) => {
+    setStartTime(childData);
   }
 
   // this sets the coords for the popup menu and the coords for the clicked object on picture
@@ -71,6 +78,7 @@ const App = () => {
     gameOverArea.className = 'popupHide';
   }, [items]);
 
+  // game win logic
   useEffect(() => {
     if (canWinGame.current === false) {
       canWinGame.current = true;
@@ -79,12 +87,18 @@ const App = () => {
       if (itemsFound === items.length && items.length !== 0) {
         const gameOverArea = document.getElementById('gameOverArea');
         gameOverArea.className = 'popupShow';
-        // some scoreboard functionality? this currently just logs user name and time completed in the database
-        const scoreRef = doc(db, 'leaderboard', 'hockey');
-        setDoc(scoreRef, { name: {name}, time: serverTimestamp() }, { merge: true })
+        setTime(Date.now() - startTime);
       }
     }
   }, [itemsFound, items.length])
+
+  const submitScore = (e) => {
+    e.preventDefault();
+    const scoreRef = doc(db, 'hockey', 'leaderboard');
+    updateDoc(scoreRef, { leaders: arrayUnion({name: `${name}`, time: `${time}`})});
+    const gameOverArea = document.getElementById('gameOverArea');
+    gameOverArea.className = 'popupHide';
+  }
 
   const popupCallback = async (childData) => {
     // get coordinates of item from backend
@@ -123,15 +137,17 @@ const App = () => {
           <div id="mainContent">
             <div id="imageLinks">
               <Link to="/">Home</Link>
-              <Link to="/hockey">Hockey</Link>
+              <Link to="/leader">Leaderboard</Link>
+              <Link to="/hockey">Hockey Image</Link>
             </div>
 
             <Switch>
               <Route exact path="/">
                 <Blank getItemsToFind={getItemsToFindCallback} />
               </Route>
+              <Route exact path="/leader" component={Leader} />
               <Route exact path="/hockey">
-                <Hockey coordCallback={coordCallback} getItemsToFind={getItemsToFindCallback} popupCallback={popupCallback} />
+                <Hockey coordCallback={coordCallback} startTimeCallback={startTimeCallback} getItemsToFind={getItemsToFindCallback} popupCallback={popupCallback} />
               </Route>
             </Switch>
           </div>
@@ -139,7 +155,8 @@ const App = () => {
       </section>
 
       <section id="gameOverArea" className="popupHide">
-        You Win!
+        <p>You Win!</p>
+        <button onClick={submitScore}>Submit your time</button>
       </section>
     </div>
   );

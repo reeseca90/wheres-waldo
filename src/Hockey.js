@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import hockeyImg from './hockey.jpg';
 
 const Hockey = (props) => {
@@ -17,6 +17,7 @@ const Hockey = (props) => {
   }
 
   useEffect(() => {
+    props.startTimeCallback(Date.now());
     itemList();
   }, []);
 

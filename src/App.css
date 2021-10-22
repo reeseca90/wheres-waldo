@@ -70,4 +70,21 @@ li:not(:last-child) {
   font-size: 60px;
   color: red;
   font-weight: bold;
+  text-align: center;
+}
+
+#leaderBoard {
+  text-align: center;
+  font-size: 48px;
+}
+
+#leaderBoard > li:first-child {
+  margin-top: 20px;
+}
+#leaderBoard > li:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.leaderLI {
+  font-size: 22px;
 }
