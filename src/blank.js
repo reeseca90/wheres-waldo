@@ -14,7 +14,7 @@ const Blank = (props) => {
 
   return (
     <div id="blank">
-      Select an image above
+      Select an image above to begin
     </div>
   );
 };

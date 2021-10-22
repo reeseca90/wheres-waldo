@@ -35,7 +35,10 @@ const Leader = () => {
             return a.time - b.time;
           })
           .map((element) => {
-            return <li id={element.name} key={element.time} className="leaderLI">{element.name}, {element.time/1000} seconds</li>
+            return <li id={element.name} key={element.time} className="leaderLI">
+              <span className="spanLI">{element.name}</span>
+              <span className="spanLI">{element.time/1000} seconds</span>
+            </li>
           })
         }
       </ul>

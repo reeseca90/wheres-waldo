@@ -23,8 +23,8 @@ const Hockey = (props) => {
 
   return (
     <div className="App">
-      <span>Items to find:</span>
-      <div id="whatToFind">
+      <span className="whatToFind">Items to find:</span>
+      <div className="whatToFind">
         <span id="helmet" className="notFound">Helmet</span>
         <span id="gloves" className="notFound">Gloves</span>
         <span id="puck" className="notFound">Puck</span>

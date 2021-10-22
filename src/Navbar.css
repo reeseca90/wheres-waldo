@@ -4,5 +4,16 @@ header {
   align-items: center;
   padding: 20px;
   height: 40px;
+  font-size: 36px;
+  font-family: monospace;
+  font-weight: bolder;
+  font-style: oblique;
   background-color: lightgray;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;  
+}
+
+.smallFont {
+  font-size: 8px;
+  font-weight: normal;
 }

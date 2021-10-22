@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <header>
       <div id="navLeft">
-        Where's Waldo
+        <span>WHERE IS WALDO?</span><span className="smallFont">but you're not finding waldo</span>
       </div>
     </header>
   );

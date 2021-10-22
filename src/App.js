@@ -124,22 +124,21 @@ const App = () => {
 
   return (
     <div className="App">
-
-      <section id="appNav">
-        <form>
-          <label htmlFor="name">Enter your name: </label>
-          <input name="name" type="text" onChange={getName} value={name} required/>
-        </form>
-      </section>
-
       <section id="imageArea">
         <BrowserRouter>
           <div id="mainContent">
             <div id="imageLinks">
-              <Link to="/">Home</Link>
-              <Link to="/leader">Leaderboard</Link>
-              <Link to="/hockey">Hockey Image</Link>
+              <Link to="/" className="link">Home</Link>
+              <Link to="/leader" className="link">Leaderboard</Link>
+              <Link to="/hockey" className="link">Hockey Image</Link>
             </div>
+
+            <section id="appNav">
+              <form>
+                <label htmlFor="name">Enter your name: </label>
+                <input name="name" type="text" onChange={getName} value={name} required/>
+              </form>
+            </section>
 
             <Switch>
               <Route exact path="/">

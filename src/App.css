@@ -16,11 +16,28 @@ img {
   border: 1px solid black;
 }
 
-#whatToFind {
+a {
+  text-decoration: none;
+}
+a:visited {
+  color: black;
+}
+
+#blank {
+  font-size: 24px;
+  font-style: italic;
+}
+
+#appNav {
+  font-size: 18px;
+}
+
+.whatToFind {
   display: flex;
   gap: 20px;
   justify-content: center;  
-  margin: 20px;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .found {
@@ -37,7 +54,7 @@ img {
 
 #imageLinks {
   display: flex;
-  gap: 15px;
+  gap: 40px;
 }
 
 #popupMenu {
@@ -73,6 +90,17 @@ li:not(:last-child) {
   text-align: center;
 }
 
+button {
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 10px;
+}
+button:active {
+  transform: translateY(1px);
+}
+
 #leaderBoard {
   text-align: center;
   font-size: 48px;
@@ -81,10 +109,15 @@ li:not(:last-child) {
 #leaderBoard > li:first-child {
   margin-top: 20px;
 }
-#leaderBoard > li:not(:last-child) {
-  margin-bottom: 10px;
-}
 
 .leaderLI {
+  display: flex;
+  justify-content: space-between;
+  min-width: 350px;
   font-size: 22px;
+  margin: 10px;
+}
+
+.link {
+  font-size: 24px;
 }
